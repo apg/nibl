@@ -17,7 +17,7 @@ struct Nibl {
   void *userdata; /* provided by setup, passed to draw */
 };
 static void panic(char *msg) {
-  fprintf(stderr, msg);
+  fprintf(stderr, "%s", msg);
   exit(1);
 }
 static int32_t processEvents(struct Nibl *n) {
