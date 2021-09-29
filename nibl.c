@@ -78,7 +78,7 @@ void nibl_destroy(struct Nibl *n) {
 void nibl_start(struct Nibl *n) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0) { panic("unable to initialize SDL\n"); }
   /* get a window. get everything setup. */
-  n->window = SDL_CreateWindow("Nibl", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, NIBL_WIDTH, NIBL_HEIGHT, SDL_WINDOW_SHOWN);
+  n->window = SDL_CreateWindow("Nibl", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, NIBL_WIDTH*NIBL_ZOOM, NIBL_HEIGHT*NIBL_ZOOM, SDL_WINDOW_SHOWN);
   if (n->window == NULL) { panic("unable to create window\n"); }
   n->renderer = SDL_CreateRenderer(n->window, -1, 0);
   if (n->renderer == NULL) { panic("unable to get renderer\n"); }
@@ -111,15 +111,15 @@ void nibl_background(struct Nibl *n, uint8_t r, uint8_t g, uint8_t b) {
 }
 void nibl_line(struct Nibl *n, int32_t x1, int32_t y1, int32_t x2, int32_t y2) {
   SDL_SetRenderDrawColor(n->renderer, n->fgr, n->fgg, n->fgb, n->fga);
-  SDL_RenderDrawLine(n->renderer, x1, y1, x2, y2);
+  SDL_RenderDrawLine(n->renderer, x1, y1, x2*NIBL_ZOOM, y2*NIBL_ZOOM);
 }
 void nibl_triangle(struct Nibl *n, int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t x3, int32_t y3) {
-  SDL_Point pts[3] = { { x1, y1 }, { x2, y2 }, { x3, y3 } };
+  SDL_Point pts[3] = { { x1, y1 }, { x2*NIBL_ZOOM, y2*NIBL_ZOOM }, { x3*NIBL_ZOOM, y3*NIBL_ZOOM } };
   SDL_SetRenderDrawColor(n->renderer, n->fgr, n->fgg, n->fgb, n->fga);
   SDL_RenderDrawLines(n->renderer, pts, 3);
 }
 void nibl_box(struct Nibl *n, int32_t x, int32_t y, int32_t h, int32_t w, int32_t fill) {
-  SDL_Rect r = { .x = x, .y = y, .w = w, .h = h };
+  SDL_Rect r = { .x = x, .y = y, .w = (w*NIBL_ZOOM), .h = (h*NIBL_ZOOM) };
   if (fill) {
     SDL_SetRenderDrawColor(n->renderer, n->bgr, n->bgg, n->bgb, n->bga);
     SDL_RenderFillRect(n->renderer, &r);
@@ -153,6 +153,6 @@ void nibl_text(struct Nibl *n, char *s, int32_t x, int32_t y)
 {
   int32_t cx = x;
   while (*s) {
-    nibl_drawchar(n, *s, cx, y); cx += (4 * NIBL_ZOOM) + NIBL_ZOOM; s++;
+    nibl_drawchar(n, *s, cx, y); cx += (4*NIBL_ZOOM) + NIBL_ZOOM; s++;
   }
 }

@@ -25,7 +25,7 @@ with some new constraints.
 
 ## API
 
-*
+* See `nibl.h` for now, and checkout `example-font.c` for setup.
 
 
 ## Copyright and Acknowledgements
