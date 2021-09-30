@@ -24,12 +24,12 @@ draw(struct Nibl *n, void *userdata)
   click = nibl_mouse(n, &x, &y, &xr, &yr);
   if (click) {
     nibl_setfg(n, randn(256), randn(256), randn(256), 255);
+    printf("Click: (%d, %d, %d, %d)\n", x, y, xr, yr);
   }
 
   if (nibl_keyboard(n, SDLK_a)) {
     xoff += randn(30) - 15;
     yoff += randn(30) - 15;
-    printf("Key!\n");
   }
 
   nibl_background(n, 255, 255, 255);

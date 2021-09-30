@@ -39,12 +39,12 @@ static int32_t processEvents(struct Nibl *n) {
       }
     } else if (event.type == SDL_MOUSEBUTTONDOWN) {
       n->mpressed |= SDL_BUTTON(event.button.button) & 0x7;
-      n->mx = event.motion.x; n->my = event.motion.y;
+      n->mx = event.motion.x/NIBL_ZOOM; n->my = event.motion.y/NIBL_ZOOM;
     } else if (event.type == SDL_MOUSEBUTTONUP) {
       n->mpressed &= ~(SDL_BUTTON(event.button.button)) & 0x7;
-      n->mx = event.motion.x; n->my = event.motion.y;
+      n->mx = event.motion.x/NIBL_ZOOM; n->my = event.motion.y/NIBL_ZOOM;
     } else if (event.type == SDL_MOUSEMOTION) {
-      n->mx = event.motion.x; n->my = event.motion.y; n->mxr = event.motion.xrel; n->myr = event.motion.yrel;
+      n->mx = event.motion.x/NIBL_ZOOM; n->my = event.motion.y/NIBL_ZOOM; n->mxr = event.motion.xrel/NIBL_ZOOM; n->myr = event.motion.yrel/NIBL_ZOOM;
     } else if (event.type == SDL_QUIT) {
       exit(0);
     }
@@ -104,8 +104,8 @@ int32_t nibl_keyboard(struct Nibl *n, SDL_Keycode code) {
   }
   return 0;
 }
-void nibl_setfg(struct Nibl *n, uint8_t r, uint8_t b, uint8_t g, uint8_t a) { n->fgr = r; n->fgg = g; n->fgb = b; n->fga = a; }
-void nibl_setbg(struct Nibl *n, uint8_t r, uint8_t b, uint8_t g, uint8_t a) { n->bgr = r; n->bgg = g; n->bgb = b; n->bga = a; }
+void nibl_setfg(struct Nibl *n, uint8_t r, uint8_t g, uint8_t b, uint8_t a) { n->fgr = r; n->fgg = g; n->fgb = b; n->fga = a; }
+void nibl_setbg(struct Nibl *n, uint8_t r, uint8_t g, uint8_t b, uint8_t a) { n->bgr = r; n->bgg = g; n->bgb = b; n->bga = a; }
 void nibl_background(struct Nibl *n, uint8_t r, uint8_t g, uint8_t b) {
   SDL_SetRenderDrawColor(n->renderer, r, g, b, 255);   SDL_RenderClear(n->renderer);
 }
@@ -129,7 +129,7 @@ void nibl_box(struct Nibl *n, int32_t x, int32_t y, int32_t h, int32_t w, int32_
 }
 void nibl_point(struct Nibl *n, int32_t x, int32_t y) {
   SDL_SetRenderDrawColor(n->renderer, n->fgr, n->fgg, n->fgb, n->fga);
-  SDL_Rect r = { .x = x, .y = y, .w = NIBL_ZOOM, .h = NIBL_ZOOM };
+  SDL_Rect r = { .x = x*NIBL_ZOOM, .y = y*NIBL_ZOOM, .w = NIBL_ZOOM, .h = NIBL_ZOOM };
   SDL_RenderDrawRect(n->renderer, &r);
 }
 /* Licensed under MIT: https://robey.lag.net/2010/01/23/tiny-monospace-font.html */
