@@ -4,7 +4,7 @@
 #include <stdint.h>
 #define NIBL_WIDTH 320
 #define NIBL_HEIGHT 240
-#define NIBL_ZOOM 2 
+#define NIBL_ZOOM 2
 #define NIBL_FPS 30
 struct Nibl;
 void nibl_setfg(struct Nibl *n, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
